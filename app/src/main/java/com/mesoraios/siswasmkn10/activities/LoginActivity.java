@@ -2,6 +2,7 @@ package com.mesoraios.siswasmkn10.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -31,6 +32,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            // Jika sudah login, langsung buka MainActivity
+            startActivity(new Intent(this, MainActivity.class));
+            finish(); // Akhiri LoginActivity
+            return;
+        }
         setContentView(R.layout.activity_login);
         etNIS = findViewById(R.id.et_nis);
         etPass = findViewById(R.id.et_pass);
@@ -69,6 +79,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 pd.dismiss();
                 if (response.body().getHasil().equals("success")){
+                    SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isLoggedIn", true); // Simpan status login
+                    editor.apply();
+
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     finish();
                 }else{
