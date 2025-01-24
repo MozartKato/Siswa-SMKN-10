@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("session", MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         if (isLoggedIn) {
@@ -78,14 +78,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 pd.dismiss();
-                if (response.body().getHasil().equals("success")){
-                    SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                if (!response.body().getHasil().equals("error")){
+                    SharedPreferences sharedPreferences = getSharedPreferences("session", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("isLoggedIn", true); // Simpan status login
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.putString("nis",nis);
+                    editor.putString("tingkatan",tingkatan);
+                    editor.putString("tahunAjaran",tahun);
+                    editor.putString("kelas",response.body().getHasil());
                     editor.apply();
-
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
 
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     finish();

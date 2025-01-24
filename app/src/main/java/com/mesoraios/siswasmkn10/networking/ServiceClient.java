@@ -1,11 +1,15 @@
 package com.mesoraios.siswasmkn10.networking;
 
+import com.google.errorprone.annotations.FormatMethod;
 import com.mesoraios.siswasmkn10.model.LoginResponse;
+import com.mesoraios.siswasmkn10.model.SppResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ServiceClient {
 
@@ -17,5 +21,14 @@ public interface ServiceClient {
                                   @Field(value = "tahunAjaran", encoded = true) String tahunAjaran,
                                   @Field(value = "nis", encoded = true) String nis,
                                   @Field(value = "pass", encoded = true) String pass);
+    
+    @GET("exec")
+    Call<SppResponse> readSpp(@Query("sheetName")String sheetName,
+                              @Query("action")String action,
+                              @Query("tingkatan")String tingkatan,
+                              @Query("tahunAjaran")String tahunAjaran,
+                              @Query("kelas")String kelas,
+                              @Query("nis")String nis
+                              );
 
 }
