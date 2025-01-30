@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mesoraios.siswasmkn10.R;
+import com.mesoraios.siswasmkn10.activities.PengumumanUnActivity;
 import com.mesoraios.siswasmkn10.activities.SPPDetailActivity;
 import com.mesoraios.siswasmkn10.model.Menu;
 
@@ -64,6 +65,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
                     switch (menu.getNamaMenu()){
                         case "SPP":
                             context.startActivity(new Intent(context, SPPDetailActivity.class));
+                            break;
+                        case "Pengumuman UN":
+                            context.startActivity(new Intent(context, PengumumanUnActivity.class));
                             break;
                     }
                 }

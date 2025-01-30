@@ -3,6 +3,7 @@ package com.mesoraios.siswasmkn10.networking;
 import com.google.errorprone.annotations.FormatMethod;
 import com.mesoraios.siswasmkn10.model.LoginResponse;
 import com.mesoraios.siswasmkn10.model.SppResponse;
+import com.mesoraios.siswasmkn10.model.UNResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -31,4 +32,8 @@ public interface ServiceClient {
                               @Query("nis")String nis
                               );
 
+    @GET("exec")
+    Call<UNResponse> readHasilUN(@Query("sheetName")String sheetName,
+                                 @Query("action")String action,
+                                 @Query("nis")String nis);
 }
